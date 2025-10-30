@@ -4,10 +4,11 @@ import { useState } from "react";
 import Image from "next/image";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
-import GoogleFormModal from "../../components/GoogleFormModal";
+import { useRouter } from "next/navigation";
 
 export default function LearningGamesPage() {
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
+  const router = useRouter();
 
   const games = [
     {
@@ -92,7 +93,7 @@ export default function LearningGamesPage() {
   });
 
   const openFormModal = () => {
-    setIsFormModalOpen(true);
+    router.push("/book-demo");
   };
 
   const closeFormModal = () => {
@@ -105,7 +106,7 @@ export default function LearningGamesPage() {
     } else if (game.title === "Practice Coding") {
       window.location.href = "/learning-games/practice-coding";
     } else {
-      openFormModal();
+      router.push("/book-demo");
     }
   };
 
@@ -281,8 +282,7 @@ export default function LearningGamesPage() {
         </div>
       </section>
 
-      {/* Modal */}
-      <GoogleFormModal isOpen={isFormModalOpen} onClose={closeFormModal} />
+      {/* Modal removed: navigation to /book-demo */}
 
       {/* Footer */}
       <Footer />

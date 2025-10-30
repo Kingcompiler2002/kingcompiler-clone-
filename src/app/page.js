@@ -4,20 +4,21 @@ import { useState, useEffect } from "react";
 import Navbar from "../components/Navbar";
 import HeroSection from "../components/HeroSection";
 import FeaturesSection from "../components/FeaturesSection";
-import MostPopularCoursesSection from "../components/MostPopularCoursesSection";
 import OurOfferingsSection from "../components/OurOfferingsSection";
+import CourseTrackSection from "../components/CourseTrackSection";
 import WhyChooseUs from "../components/WhyChooseUs";
 import BlogSection from "../components/BlogSection";
 import AchieversSection from "../components/AchieversSection";
 import TestimonialsSection from "../components/TestimonialsSection";
 import StatsSection from "../components/StatsSection";
 import Footer from "../components/Footer";
-import GoogleFormModal from "../components/GoogleFormModal";
+// GoogleFormModal removed in favor of dedicated page
 import FloatingDemoButton from "../components/FloatingDemoButton";
-import SEOHead from "../components/SEOHead";
+import { useRouter } from "next/navigation";
 
 export default function Home() {
   const [showModal, setShowModal] = useState(false);
+  const router = useRouter();
 
   // SEO structured data for homepage
   const homepageStructuredData = {
@@ -90,7 +91,7 @@ export default function Home() {
   }, []);
 
   const handleBookDemo = () => {
-    setShowModal(true);
+    router.push("/book-demo");
   };
 
   const handleCloseModal = () => {
@@ -99,25 +100,17 @@ export default function Home() {
 
   return (
     <div className="min-h-screen bg-white pt-20">
-      <SEOHead
-        title="KingCompiler - Online Academy for Chess, Coding, AI & Robotics for Kids"
-        description="Transform your child's future with expert-led online classes in Chess, Coding, AI, Robotics, and more. Free trial available. Join 1000+ happy students!"
-        keywords="online chess classes, coding for kids, AI classes, robotics for children, online education, kids programming, chess academy, STEM education, online learning"
-        image="https://kingmaster.com/banner.png"
-        url="https://kingmaster.com"
-        type="website"
-        structuredData={homepageStructuredData}
-      />
+      {/* Metadata provided via app/layout.js and structured data injected separately */}
       <Navbar onBookDemo={handleBookDemo} />
       <HeroSection onBookDemo={handleBookDemo} />
       <AchieversSection />
       <StatsSection />
       <WhyChooseUs />
       <OurOfferingsSection />
-      <MostPopularCoursesSection />
+      <CourseTrackSection />
       <TestimonialsSection />
       <Footer />
-      <GoogleFormModal isOpen={showModal} onClose={handleCloseModal} />
+      {/* GoogleFormModal removed: navigation to /book-demo */}
       <FloatingDemoButton />
     </div>
   );

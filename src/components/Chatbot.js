@@ -301,7 +301,7 @@ function findFAQ(faqs, message) {
   return null;
 }
 
-const Chatbot = () => {
+const Chatbot = ({ hideWhatsApp = false }) => {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState([
     {
@@ -715,6 +715,7 @@ const Chatbot = () => {
     // eslint-disable-next-line
   }, [open]);
 
+
   // Floating king icon button
   if (!open) {
     return (
@@ -729,7 +730,8 @@ const Chatbot = () => {
           zIndex: 1000,
         }}
       >
-        {/* WhatsApp Button with Hover Card (fixed hover, with delay) */}
+        {/* WhatsApp Button with Hover Card (hidden via prop) */}
+        {!hideWhatsApp && (
         <div
           style={{ position: "relative" }}
           onMouseEnter={() => {
@@ -857,6 +859,7 @@ const Chatbot = () => {
             </div>
           )}
         </div>
+        )}
 
         {/* King Master Chatbot Button */}
         <button
