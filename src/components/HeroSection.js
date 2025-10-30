@@ -57,7 +57,7 @@ export default function HeroSection({ onBookDemo }) {
     >
       {/* Left Side - Content */}
       <div className="lg:w-1/2 lg:pr-8 xl:pr-12 text-center lg:text-left mb-8 lg:mb-0">
-        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold mb-4 lg:mb-6 leading-tight">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-extrabold mb-4 lg:mb-6 leading-tight">
           <span
             style={{
               background: "linear-gradient(90deg, #222, #444)",
@@ -66,10 +66,13 @@ export default function HeroSection({ onBookDemo }) {
               fontWeight: 800,
             }}
           >
-            #1 Live Online Coding, Chess & Creative Courses
+            Live Online Chess & Coding Classes
           </span>
-          <span className="block" style={{ color: "var(--primary)" }}>
-            for Kids & Teens
+          <span
+            className="block mt-2 text-lg sm:text-xl md:text-2xl lg:text-3xl font-semibold"
+            style={{ color: "var(--primary)" }}
+          >
+            for All Levels – Beginner to Master
           </span>
         </h1>
         <p

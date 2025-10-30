@@ -2,7 +2,6 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Image from "next/image";
-import Parser from "rss-parser";
 
 const categories = ["All", "Chess", "Coding", "Education", "Tutorials"];
 
@@ -148,7 +147,7 @@ export default function BlogSection() {
       "@type": "Blog",
       name: "Kingcompiler Blog",
       description:
-        "Chess and coding tutorials, strategies, and educational content from Substack",
+        "Chess and coding tutorials, strategies, and educational content",
       url: "https://kingcompiler.com/blog",
       publisher: {
         "@type": "Organization",
@@ -168,10 +167,10 @@ export default function BlogSection() {
         },
         datePublished: post.date,
         dateModified: post.date,
-        url: `https://kingcompiler.com/blog/substack/${post.slug}`,
+        url: `https://kingcompiler.com/blog/local/${post.slug}`,
         mainEntityOfPage: {
           "@type": "WebPage",
-          "@id": `https://kingcompiler.com/blog/substack/${post.slug}`,
+          "@id": `https://kingcompiler.com/blog/local/${post.slug}`,
         },
       })),
     };
@@ -195,8 +194,12 @@ export default function BlogSection() {
 
   const handlePostClick = (post) => {
     if (post.slug) {
-      // Navigate to local Substack post page
-      window.location.href = `/blog/substack/${post.slug}`;
+      // Navigate to local post page
+      if (post.source === "local") {
+        window.location.href = `/blog/local/${post.slug}`;
+      } else {
+        window.location.href = `/blog/${post.slug}`;
+      }
     }
   };
 
@@ -237,8 +240,7 @@ export default function BlogSection() {
               Latest from Our Blog
             </h2>
             <p className="text-lg text-gray-600">
-              Chess strategies, coding tutorials, and educational insights from
-              Substack
+              Chess strategies, coding tutorials, and educational insights
             </p>
           </div>
           <BlogSkeleton />
@@ -256,8 +258,7 @@ export default function BlogSection() {
               Latest from Our Blog
             </h2>
             <p className="text-lg text-gray-600">
-              Chess strategies, coding tutorials, and educational insights from
-              Substack
+              Chess strategies, coding tutorials, and educational insights
             </p>
           </div>
           <div className="text-center py-12">
@@ -320,8 +321,7 @@ export default function BlogSection() {
             </button>
           </div>
           <p className="text-lg text-gray-600 mb-8">
-            Chess strategies, coding tutorials, and educational insights from
-            our Substack
+            Chess strategies, coding tutorials, and educational insights
           </p>
           {lastUpdated && (
             <p className="text-sm text-gray-500 mb-4">
@@ -359,7 +359,7 @@ export default function BlogSection() {
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {filteredPosts.slice(0, 6).map((post) => (
               <article
-                key={`substack-${post.id}`}
+                key={`blog-${post.id}`}
                 className="bg-white rounded-lg shadow-lg overflow-hidden hover:shadow-xl transition-shadow duration-300 cursor-pointer"
                 itemScope
                 itemType="https://schema.org/BlogPosting"
@@ -367,7 +367,9 @@ export default function BlogSection() {
               >
                 {/* Featured image */}
                 <div className="relative h-48 bg-gradient-to-br from-blue-500 to-purple-600 rounded-lg overflow-hidden">
-                  {post.image && post.image !== "/blog/substack-post.jpg" ? (
+                  {post.image &&
+                  post.image !== "/blog/substack-post.jpg" &&
+                  post.image !== "/blog/local-post.jpg" ? (
                     <Image
                       src={post.image}
                       alt={post.title}
@@ -380,7 +382,9 @@ export default function BlogSection() {
                   ) : null}
                   <div
                     className={`absolute inset-0 flex items-center justify-center ${
-                      post.image && post.image !== "/blog/substack-post.jpg"
+                      post.image &&
+                      post.image !== "/blog/substack-post.jpg" &&
+                      post.image !== "/blog/local-post.jpg"
                         ? "hidden"
                         : "flex"
                     }`}
@@ -397,11 +401,13 @@ export default function BlogSection() {
                       {post.category}
                     </span>
                   </div>
-                  <div className="absolute top-4 right-4">
-                    <span className="bg-orange-600 text-white px-2 py-1 rounded text-xs font-semibold">
-                      Substack
-                    </span>
-                  </div>
+                  {post.source === "local" && (
+                    <div className="absolute top-4 right-4">
+                      <span className="bg-green-600 text-white px-2 py-1 rounded text-xs font-semibold">
+                        Local
+                      </span>
+                    </div>
+                  )}
                 </div>
 
                 {/* Content */}
@@ -462,24 +468,6 @@ export default function BlogSection() {
                     >
                       Read more
                     </button>
-                    <button
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        if (post.originalLink) {
-                          window.open(post.originalLink, "_blank");
-                        } else if (post.externalLinks?.substack) {
-                          window.open(post.externalLinks.substack, "_blank");
-                        } else {
-                          window.open(
-                            "https://kingcompiler.substack.com",
-                            "_blank"
-                          );
-                        }
-                      }}
-                      className="flex-1 bg-orange-600 hover:bg-orange-700 text-white py-2 px-3 rounded text-sm font-medium transition-colors duration-200"
-                    >
-                      Read in Substack
-                    </button>
                   </div>
                 </div>
               </article>
@@ -493,8 +481,7 @@ export default function BlogSection() {
             Want to Read More?
           </h3>
           <p className="text-lg mb-6 text-gray-600">
-            Explore our complete collection of chess and coding articles on
-            Substack
+            Explore our complete collection of chess and coding articles
           </p>
           <a
             href="/blog"
@@ -506,30 +493,4 @@ export default function BlogSection() {
       </div>
     </section>
   );
-}
-
-export async function GET() {
-  const parser = new Parser();
-  const feed = await parser.parseURL("https://kingcompiler.substack.com/feed");
-  // Map RSS items to your expected structure
-  const posts = feed.items.map((item, idx) => ({
-    id: idx,
-    title: item.title,
-    excerpt: item.contentSnippet || "",
-    author: item.creator || "Kingcompiler Team",
-    date: item.isoDate || item.pubDate,
-    image: item.enclosure?.url || "/blog/substack-post.jpg",
-    category: item.categories?.[0] || "Blog",
-    slug: item.guid?.split("/").pop() || "",
-    readTime: "3 min read", // You can estimate or parse this if needed
-    tags: item.categories || [],
-    originalLink: item.link,
-    externalLinks: { substack: item.link },
-  }));
-
-  return Response.json({
-    success: true,
-    posts,
-    lastUpdated: new Date().toISOString(),
-  });
 }

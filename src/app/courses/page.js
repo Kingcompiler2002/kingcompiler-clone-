@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import Image from "next/image";
 import { courses, categories } from "../../data/courseData";
 import Navbar from "../../components/Navbar";
-import GoogleFormModal from "../../components/GoogleFormModal";
+// GoogleFormModal removed in favor of dedicated page
 import Footer from "../../components/Footer";
 import FloatingDemoButton from "../../components/FloatingDemoButton";
 
@@ -178,7 +178,7 @@ export default function CoursesPage() {
   };
 
   const openFormModal = () => {
-    setIsFormModalOpen(true);
+    router.push("/book-demo");
   };
 
   const closeFormModal = () => {
@@ -498,8 +498,7 @@ export default function CoursesPage() {
         </div>
       </section>
 
-      {/* Modal */}
-      <GoogleFormModal isOpen={isFormModalOpen} onClose={closeFormModal} />
+      {/* Modal removed: navigation to /book-demo */}
 
       {/* Video Modal */}
       {isVideoModalOpen && (

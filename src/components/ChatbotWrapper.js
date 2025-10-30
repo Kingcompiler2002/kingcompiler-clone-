@@ -1,7 +1,10 @@
 "use client";
 
 import Chatbot from "./Chatbot";
+import { usePathname } from "next/navigation";
 
 export default function ChatbotWrapper() {
-  return <Chatbot />;
+  const pathname = usePathname();
+  const hideWhatsApp = pathname?.startsWith("/book-demo");
+  return <Chatbot hideWhatsApp={!!hideWhatsApp} />;
 }

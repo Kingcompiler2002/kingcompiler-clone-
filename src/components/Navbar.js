@@ -46,11 +46,18 @@ export default function Navbar() {
       {/* Desktop Menu */}
       <div className="hidden md:flex gap-4 text-base font-bold items-center">
         <button
+          onClick={() => router.push("/courses/chess")}
+          className="px-4 py-2 rounded transition-all duration-150 text-black font-bold hover:bg-[#fbbf24] hover:scale-105 active:bg-[#fbbf24] active:scale-95 active:border-2 active:border-[#fbbf24]"
+          style={{ background: "none" }}
+        >
+          Chess Class
+        </button>
+        <button
           onClick={handleCoursesClick}
           className="px-4 py-2 rounded transition-all duration-150 text-black font-bold hover:bg-[#fbbf24] hover:scale-105 active:bg-[#fbbf24] active:scale-95 active:border-2 active:border-[#fbbf24]"
           style={{ background: "none" }}
         >
-          Courses
+          Coding Class
         </button>
         <Link href="/about">
           <button
@@ -194,11 +201,18 @@ export default function Navbar() {
           style={{ maxHeight: "80vh", padding: "1rem 0" }}
         >
           <button
+            onClick={() => { setMenuOpen(false); router.push("/courses/chess"); }}
+            className="w-full text-left px-4 py-2 rounded transition-all duration-150 text-black font-bold hover:bg-[#fbbf24] hover:scale-105 active:bg-[#fbbf24] active:scale-95 active:border-2 active:border-[#fbbf24]"
+            style={{ background: "none" }}
+          >
+            Chess Class
+          </button>
+          <button
             onClick={handleCoursesClick}
             className="w-full text-left px-4 py-2 rounded transition-all duration-150 text-black font-bold hover:bg-[#fbbf24] hover:scale-105 active:bg-[#fbbf24] active:scale-95 active:border-2 active:border-[#fbbf24]"
             style={{ background: "none" }}
           >
-            Courses
+            Coding Class
           </button>
           <Link href="/about">
             <button

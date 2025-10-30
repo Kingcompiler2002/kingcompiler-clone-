@@ -4,12 +4,13 @@ import { useState, useEffect } from "react";
 import Image from "next/image";
 import Navbar from "../../components/Navbar";
 import Footer from "../../components/Footer";
-import GoogleFormModal from "../../components/GoogleFormModal";
 import FloatingDemoButton from "../../components/FloatingDemoButton";
+import { useRouter } from "next/navigation";
 
 export default function ContactPage() {
   const [isClient, setIsClient] = useState(false);
   const [isFormModalOpen, setIsFormModalOpen] = useState(false);
+  const router = useRouter();
 
   useEffect(() => {
     setIsClient(true);
@@ -158,7 +159,7 @@ export default function ContactPage() {
   ];
 
   const openFormModal = () => {
-    setIsFormModalOpen(true);
+    router.push("/book-demo");
   };
 
   const closeFormModal = () => {
@@ -461,7 +462,7 @@ export default function ContactPage() {
         </div>
       </section>
 
-      <GoogleFormModal isOpen={isFormModalOpen} onClose={closeFormModal} />
+      {/* Google Form Modal removed: navigation to /book-demo */}
       <FloatingDemoButton />
       <Footer />
     </div>

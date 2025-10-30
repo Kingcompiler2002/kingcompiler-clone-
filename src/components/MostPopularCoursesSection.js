@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { useState } from "react";
-import GoogleFormModal from "./GoogleFormModal";
+// GoogleFormModal removed in favor of dedicated page
 import { useRouter } from "next/navigation";
 import { courses, categories } from "../data/courseData";
 
@@ -27,7 +27,7 @@ export default function MostPopularCoursesSection() {
   };
 
   const openFormModal = () => {
-    setIsFormModalOpen(true);
+    router.push("/book-demo");
   };
 
   const closeFormModal = () => {
@@ -285,8 +285,7 @@ export default function MostPopularCoursesSection() {
         </div>
       )}
 
-      {/* Google Form Modal */}
-      <GoogleFormModal isOpen={isFormModalOpen} onClose={closeFormModal} />
+      {/* Google Form Modal removed: navigation to /book-demo */}
     </>
   );
 }
